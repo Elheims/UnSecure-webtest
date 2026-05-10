@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,9 +7,17 @@
 </head>
 <body>
 
+    <?php if (isset($_SESSION["username"])): ?>
+        <p style="color:green;"><b>Login berhasil sebagai: <?= $_SESSION["username"] ?></b></p>
+        <form action="php/logout.php" method="POST">
+            <input type="submit" value="Logout">
+        </form>
+        <hr>
+    <?php endif; ?>
+
     <h2>Login</h2>
 
-    <form action="php/login_vulnerable.php" method="POST">
+    <form action="php/login.php" method="POST">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" maxlength="64" required><br><br>
 
@@ -22,7 +31,7 @@
 
     <h2>Komentar</h2>
 
-    <form action="php/komentar_vulnerable.php" method="POST">
+    <form action="php/komentar.php" method="POST">
         <label for="nama">Nama:</label><br>
         <input type="text" id="nama" name="nama" maxlength="64"><br><br>
 
