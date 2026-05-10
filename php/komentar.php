@@ -2,32 +2,32 @@
 require "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: ../login.html");
+    header("Location: ../login.php");
     exit;
 }
 
-// Batasi panjang input (buffer overflow protection)
+// Buffer overflow protection
 $nama     = substr(trim($_POST["nama"]     ?? ""), 0, 64);
 $komentar = substr(trim($_POST["komentar"] ?? ""), 0, 500);
 
 if ($nama === "" || $komentar === "") {
-    die("Nama dan komentar tidak boleh kosong. <a href='../login.html'>Kembali</a>");
+    die("Nama dan komentar tidak boleh kosong. <a href='../login.php'>Kembali</a>");
 }
 
-// XSS protection - encode karakter berbahaya
+// XSS protection
 $nama     = htmlspecialchars($nama,     ENT_QUOTES, "UTF-8");
 $komentar = htmlspecialchars($komentar, ENT_QUOTES, "UTF-8");
 
-// Prepared statement (SQL injection protection)
+// SQL injection protection - prepared statement
 $stmt = $conn->prepare("INSERT INTO komentar (nama, komentar) VALUES (?, ?)");
 $stmt->bind_param("ss", $nama, $komentar);
 
 if ($stmt->execute()) {
-    header("Location: ../login.html?komentar=sukses");
+    $stmt->close();
+    $conn->close();
+    header("Location: ../login.php");
+    exit;
 } else {
     die("Gagal menyimpan komentar.");
 }
-
-$stmt->close();
-$conn->close();
 ?>

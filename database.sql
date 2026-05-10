@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS komentar (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Akun admin default untuk versi vulnerable (password plain text)
+-- Akun admin: password di-hash bcrypt via setup.php setelah container jalan
 INSERT INTO users (username, password) VALUES
 ('admin', 'admin123');
