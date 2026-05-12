@@ -19,13 +19,14 @@
 
     <form action="php/login.php" method="POST">
         <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" maxlength="64" required><br><br>
+        <input type="text" id="username" name="username" maxlength="32" required><br><br>
 
         <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" maxlength="128" required><br><br>
+        <input type="password" id="password" name="password" maxlength="64" required><br><br>
 
         <input type="submit" value="Login">
     </form>
+    <p><a href="register.php">Register di sini</a></p>
 
     <hr>
 
