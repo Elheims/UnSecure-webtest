@@ -18,14 +18,15 @@ if (time() - $_SESSION["login_time"] > 300) {
     $_SESSION["login_time"]     = time();
 }
 
-if ($_SESSION["login_attempts"] >= 5) {
+if ($_SESSION["login_attempts"] >= 3) {
     $sisa = 300 - (time() - $_SESSION["login_time"]);
     die("Terlalu banyak percobaan login. Coba lagi dalam $sisa detik. <a href='../login.php'>Kembali</a>");
+
 }
 
 // Buffer overflow protection
-$username = substr(trim($_POST["username"] ?? ""), 0, 64);
-$password = substr(trim($_POST["password"] ?? ""), 0, 128);
+$username = substr(trim($_POST["username"] ?? ""), 0, 32);
+$password = substr(trim($_POST["password"] ?? ""), 0, 64);
 
 if ($username === "" || $password === "") {
     die("Username dan password tidak boleh kosong. <a href='../login.php'>Kembali</a>");
@@ -59,5 +60,5 @@ $_SESSION["login_attempts"]++;
 $stmt->close();
 $conn->close();
 
-die("Username atau password salah. Percobaan ke-" . $_SESSION["login_attempts"] . "/5. <a href='../login.php'>Kembali</a>");
+die("Username atau password salah. Percobaan ke-" . $_SESSION["login_attempts"] . "/3. <a href='../login.php'>Kembali</a>");
 ?>
